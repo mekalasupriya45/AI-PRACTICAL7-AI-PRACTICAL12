@@ -1,0 +1,97 @@
+       AI PRACTICAL-7
+
+from sklearn.naive_bayes import BernoulliNB
+
+# Define the training data to resolve the NameError
+x = [
+    [1, 1, 1],
+    [1, 1, 0],
+    [1, 0, 1],
+    [0, 1, 0],
+    [0, 1, 1],
+    [0, 0, 0],
+]
+
+y = [
+    'Flu',
+    'Flu',
+    'Flu',
+    'cold',
+    'cold',
+    'cold'
+]
+
+model = BernoulliNB()
+model.fit(x, y)
+
+patient = [[1, 1, 0]]
+prediction = model.predict(patient)
+
+print("Predicted diagnosis:", prediction[0])
+
+patient2 = [[0, 1, 0]]
+prediction2 = model.predict(patient2)
+
+print("Predicted diagnosis:", prediction2[0])
+
+probabilities = model.predict_proba(patient)
+
+for diagnosis, probability in zip(model.classes_, probabilities[0]):
+    print(diagnosis, "=", round(probability, 2))
+
+
+AI PRACTICAL-8
+
+
+from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.naive_bayes import MultinomialNB
+messages = [
+    "Win a free prize now",
+    "Claim your free reward",
+    "Congratulations you won cash",
+    "Get a special offer today",
+    "Please attend the meeting tomorrow",
+    "Can we meet after class",
+    "Your assignment is due friday",
+    "Please send me the notes"
+]
+
+labels = [
+
+    "Spam",
+    "Spam",
+    "Spam",
+    "Spam",
+    "Not Spam",
+    "Not Spam",
+    "Not Spam",
+    "Not Spam"
+]
+
+vectorizer = CountVectorizer()
+X = vectorizer.fit_transform(messages)
+
+print("Vocabulary: ", vectorizer.vocabulary_)
+print(X.toarray())
+
+
+model = MultinomialNB()
+model.fit(X, labels)
+
+new_message = ["Win cash today"]
+
+new_X = vectorizer.transform(new_message)
+
+prediction = model.predict(new_X)
+
+print("Message:", new_message[0])
+print("Prediction:", prediction[0])
+
+user_message = input("Enter a message: ")
+
+user_X = vectorizer.transform([user_message])
+
+prediction = model.predict(new_X)
+
+
+print("Prediction:", prediction[0])
